@@ -26,6 +26,9 @@
 </p>
 
 <p>
-
+  <%= render "new_ticket", ticket: Ticket.new( :event_id=>@event.id) %>
+  <%= render "tickets_list", tickets: Ticket.where(event_id: @event.id) %>
 <%= link_to 'Edit', edit_event_path(@event) %> |
 <%= link_to 'Back', events_path %>
+
+

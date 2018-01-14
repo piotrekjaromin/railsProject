@@ -1,0 +1,7 @@
+<h1>Listing Events</h1>
+
+<ul>
+  <% for event in events %>
+      <li><%= link_to event.artist, "/events/#{event.id}" %>:  <%= event.id %></li>
+  <% end %>
+</ul>
