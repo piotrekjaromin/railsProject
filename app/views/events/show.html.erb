@@ -24,6 +24,10 @@
   <strong>event_date:</strong>
   <%= @event.event_date %>
 </p>
+<p>
+  <strong>seats:</strong>
+  <%= @event.seats%>
+</p>
 
 <p>
   <%= render "new_ticket", ticket: Ticket.new( :event_id=>@event.id) %>
