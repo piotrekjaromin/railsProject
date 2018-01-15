@@ -5,44 +5,53 @@
   <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track' => true %>
   <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
   <%= csrf_meta_tags %>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
 </head>
 <body>
 
 <nav class="navbar bg-dark text-light">
-  <div class="row">
-    <div class="col-sm-4">
-      Sport shop
-      <div class="dropdown show">
+  <top-nav>
+    <div class="row" id="top_bar">
+      <div class="col-sm-4">
+        Sport shop
 
         <% if user_signed_in? %>
-            <button class="btn btn-sm dropdown-toggle" type="button" data-toggle="dropdown" ><%= current_user.email %>
-              <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                <a class="dropdown-item" (click)="changeView('order')">Orders</a>
-                <a class="dropdown-item" (click)="changeView('logout')">Logout</a>
-              </div>
-            </button>
-
+            <div class="dropdown">
+              <button class="btn btn-default btn-sm  dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                Dropdown
+                <span class="caret"></span>
+              </button>
+              <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                <li><a><%= link_to "Logout", destroy_user_session_path, method: :delete, :class => 'navbar-link' %></a></li>
+                <li><a href="/users/edit">Edit profile</a></li>
+              </ul>
+            </div>
         <% else %>
 
-
-            <button class="btn btn-sm dropdown-toggle" type="button" data-toggle="dropdown">User
-              <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                <a class="dropdown-item" (click)="changeView('login')">Login</a>
-                <a class="dropdown-item" (click)="changeView('registration')">Registration</a>
-              </div>
-            </button>
+            <div class="dropdown">
+              <button class="btn btn-default btn-sm  dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                Dropdown
+                <span class="caret"></span>
+              </button>
+              <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                <li><a href="/users/sign_in">Sign in</a></li>
+                <li><a href="/users/sign_up">Registration</a></li>
+              </ul>
+            </div>
         <% end %>
       </div>
+
+      <div class="col-sm-8" id="cart-details">
+        <% if user_signed_in? %>
+          Cart: <%= current_user.money %>
+        <% end %>
+        <button class="btn btn-primary btn-sm" id="go-to-cart" (click)="changeView('cart')">Cart</button>
+
+      </div>
     </div>
-
-    <div class="col-sm-8" id="cart-details">
-      Cart: {{numberOfProduct}} product(s), {{price.toFixed(2)}} zł
-
-      <button class="btn btn-primary btn-sm" id="go-to-cart" (click)="changeView('cart')">Cart</button>
-
-    </div>
-  </div>
+  </top-nav>
 </nav>
 
 <% if notice %>
@@ -52,19 +61,6 @@
     <p class="alert alert-danger"><%= alert %></p>
 <% end %>
 <%= yield %>
-
-
-<p class="navbar-text pull-right">
-  <% if user_signed_in? %>
-      Logged in as <strong><%= current_user.email %></strong>.
-      <%= link_to 'Edit profile', edit_user_registration_path, :class => 'navbar-link' %> |
-      <%= link_to "Logout", destroy_user_session_path, method: :delete, :class => 'navbar-link'
-      %>
-  <% else %>
-      <%= link_to "Sign up", new_user_registration_path, :class => 'navbar-link' %>
-      <%= link_to "Login", new_user_session_path, :class => 'navbar-link' %>
-  <% end %>
-</p>
 
 </body>
 </html>

@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
-  devise_for :users
-  root to: "home#index"
-  get '/', :to => redirect('/index.html')
+  root to: "home#events"
+  get '/', :to => redirect('/event')
+  devise_for :users, :controllers => { registrations: 'registrations' }
   resources :tickets
   resources :events
 

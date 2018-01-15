@@ -1,38 +1,82 @@
 <p id="notice"><%= notice %></p>
 
-<p>
-  <strong>artist:</strong>
-  <%= @event.artist %>
-</p>
 
-<p>
-  <strong>description:</strong>
-  <%= @event.description %>
-</p>
+<dashboard>
+  <div class="row">
+    <div class="col-sm-2">
+      <left-menu>
+        <ul class="categories list-group">
+          <li class="list-group-item">
+            <a href="/tickets">Tickets</a>
+          </li>
+          <li class="list-group-item">
+            <a href="/events">Events</a>
+          </li>
+        </ul>
+      </left-menu>
+    </div>
+    <div class="col-sm-10">
+      <list-of-products>
+        <div class="panel panel-default">
+          <div class="panel-heading">Event details</div>
+          <div class="panel-body">
+            <p>
+              <strong>artist:</strong>
+              <%= @event.artist %>
+            </p>
 
-<p>
-  <strong>price_low:</strong>
-  <%= @event.price_low %>
-</p>
+            <p>
+              <strong>description:</strong>
+              <%= @event.description %>
+            </p>
 
-<p>
-  <strong>price_high:</strong>
-  <%= @event.price_high %>
-</p>
+            <p>
+              <strong>price_low:</strong>
+              <%= @event.price_low %>
+            </p>
 
-<p>
-  <strong>event_date:</strong>
-  <%= @event.event_date %>
-</p>
-<p>
-  <strong>seats:</strong>
-  <%= @event.seats%>
-</p>
+            <p>
+              <strong>price_high:</strong>
+              <%= @event.price_high %>
+            </p>
 
-<p>
-  <%= render "new_ticket", ticket: Ticket.new( :event_id=>@event.id) %>
-  <%= render "tickets_list", tickets: Ticket.where(event_id: @event.id) %>
- <%= link_to 'Edit', edit_event_path(@event) %>
-<%= link_to 'Back', events_path %>
+            <p>
+              <strong>event_date:</strong>
+              <%= @event.event_date %>
+            </p>
+            <p>
+              <strong>seats:</strong>
+              <%= @event.seats %>
+            </p>
+          </div>
+        </div>
+        <%= link_to 'Edit', edit_event_path(@event) %>
+        <%= link_to 'Back', events_path %>
+
+        <% if user_signed_in? %>
+
+            <div class="panel panel-default">
+              <div class="panel-heading">New Ticket</div>
+              <div class="panel-body">
+                <%= render "new_ticket", ticket: Ticket.new(:event_id => @event.id, user_id: current_user.id) %>
+              </div>
+            </div>
+
+        <% end %>
+
+        <div class="panel panel-default">
+          <div class="panel-heading">Bought tickets</div>
+          <div class="panel-body">
+            <%= render "tickets_list", tickets: Ticket.where(event_id: @event.id) %>
+          </div>
+        </div>
+
+      </list-of-products>
+    </div>
+  </div>
+</dashboard>
+
+
+
 
 

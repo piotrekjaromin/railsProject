@@ -1,5 +1,31 @@
-<h1>New Event</h1>
+<dashboard>
+  <div class="row">
+    <div class="col-sm-2">
+      <left-menu>
+        <ul class="categories list-group">
+          <li class="list-group-item">
+            <a href="/tickets">Tickets</a>
+          </li>
+          <li class="list-group-item">
+            <a href="/events">Events</a>
+          </li>
+        </ul>
+      </left-menu>
+    </div>
+    <div class="col-sm-10">
+      <list-of-products>
+        <div class="panel panel-default">
+          <div class="panel-heading">New Event</div>
+          <div class="panel-body">
+            <%= render 'form' %>
+          </div>
+        </div>
+        <%= link_to 'Back', events_path %>
+      </list-of-products>
+    </div>
+  </div>
+</dashboard>
 
-<%= render 'form' %>
 
-<%= link_to 'Back', events_path %>
+
+
