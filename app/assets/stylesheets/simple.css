@@ -1,0 +1,27 @@
+#go-to-cart {
+    position: absolute;
+    right: 3%;
+    height: 25px;
+    line-height: 15%;
+}
+
+#login-registration {
+    position: absolute;
+    right: 3%;
+    height: 25px;
+    line-height: 15%;
+}
+.dropdown {
+    display: inline;
+}
+
+#top_bar {
+    background: #696969;
+    color: white;
+}
+top-nav {
+    width: 100%;
+}
+nav {
+    margin-bottom: 1%;
+}
