@@ -5,9 +5,11 @@
     <div class="col-sm-2">
       <left-menu>
         <ul class="categories list-group">
-          <li class="list-group-item">
-            <a href="/tickets">Tickets</a>
-          </li>
+          <% if user_signed_in? %>
+              <li class="list-group-item">
+                <a href="/tickets">Tickets</a>
+              </li>
+          <% end %>
           <li class="list-group-item">
             <a href="/events">Events</a>
           </li>

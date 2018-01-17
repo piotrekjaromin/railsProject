@@ -5,9 +5,11 @@
     <div class="col-sm-2">
       <left-menu>
         <ul class="categories list-group">
-          <li class="list-group-item">
-            <a href="/tickets">Tickets</a>
-          </li>
+          <% if user_signed_in? %>
+              <li class="list-group-item">
+                <a href="/tickets">Tickets</a>
+              </li>
+          <% end %>
           <li class="list-group-item">
             <a href="/events">Events</a>
           </li>
@@ -22,8 +24,11 @@
             <table class="table table-hover">
               <thead>
               <tr>
-                <th>Name</th>
+                <th>Artist</th>
                 <th>Seats (taken / all)</th>
+                <th>Price low</th>
+                <th>Price high</th>
+                <th>Date</th>
               </tr>
               </thead>
 
@@ -31,8 +36,15 @@
 
               <% for event in @events %>
                   <tr>
-                    <td><%= link_to event.artist, "/events/#{event.id}" %></td>
-                    <td><%=Ticket.where(event_id: event.id).length %> / <%=event.seats %></td>
+                    <% if user_signed_in? %>
+                        <td><%= link_to event.artist, "/events/#{event.id}" %></td>
+                    <% else %>
+                        <td><%= event.artist %></td>
+                    <% end %>
+                    <td><%= Ticket.where(event_id: event.id).length %> / <%= event.seats %></td>
+                    <td> <%= event.price_low %></td>
+                    <td><%= event.price_high %></td>
+                    <td><%= event.event_date %></td>
                   </tr>
               <% end %>
 

@@ -6,7 +6,7 @@ class TicketsController < ApplicationController
   # GET /tickets
   # GET /tickets.json
   def index
-    @tickets = Ticket.all
+    @tickets = Ticket.where(user_id: current_user.id)
   end
 
   # GET /tickets/1
@@ -30,6 +30,9 @@ class TicketsController < ApplicationController
 
     respond_to do |format|
       if @ticket.save
+        # current_user.money = current_user.money - @ticket.price
+        User.update(current_user.id, :money => current_user.money - @ticket.price)
+        #@user.save
         format.html { redirect_to @ticket, notice: 'Ticket was successfully created.' }
         format.json { render :show, status: :created, location: @ticket }
       else
