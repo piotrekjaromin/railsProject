@@ -29,6 +29,7 @@
                 <th>Price low</th>
                 <th>Price high</th>
                 <th>Date</th>
+                <th>Minimal age</th>
               </tr>
               </thead>
 
@@ -37,14 +38,33 @@
               <% for event in @events %>
                   <tr>
                     <% if user_signed_in? %>
-                        <td><%= link_to event.artist, "/events/#{event.id}" %></td>
+                        <% if Time.now.year - current_user.birthDate.year <= event.minAge %>
+                            <td style="color: red"><%= event.artist %></td>
+                        <% elsif event.event_date.mjd - DateTime.now.mjd <=30 && event.event_date.mjd - DateTime.now.mjd >= 0 %>
+                            <td><%= link_to event.artist, "/events/#{event.id}" %></td>
+                        <% else %>
+                            <td style="color: blue"><%= event.artist %></td>
+                        <% end %>
+
                     <% else %>
                         <td><%= event.artist %></td>
                     <% end %>
-                    <td><%= Ticket.where(event_id: event.id).length %> / <%= event.seats %></td>
-                    <td> <%= event.price_low %></td>
-                    <td><%= event.price_high %></td>
+                    <td>
+                      <%= Ticket.where(event_id: event.id).inject(0) {|counter, item| counter += (item.numberOfTickets)} %>
+                      / <%= event.seats %></td>
+
+
+                    <% if event.event_date.mjd - DateTime.now.mjd == 0 %>
+                        <td><%= event.price_low * 1.2%></td>
+                        <td><%= event.price_high * 1.2%></td>
+                    <% else %>
+                        <td><%= event.price_low %></td>
+                        <td><%= event.price_high %></td>
+                    <% end %>
+
+
                     <td><%= event.event_date %></td>
+                    <td><%= event.minAge %></td>
                   </tr>
               <% end %>
 

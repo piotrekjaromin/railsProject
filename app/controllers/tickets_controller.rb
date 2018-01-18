@@ -59,6 +59,14 @@ class TicketsController < ApplicationController
   # DELETE /tickets/1
   # DELETE /tickets/1.json
   def destroy
+    @price = @ticket.price;
+    @event = Event.where(id: @ticket.event_id)
+    @eventDate = @event[0].event_date
+    @numberOfDaysBetween = @eventDate.mjd - DateTime.now.mjd;
+
+    @price = @price * ((100.0 - @numberOfDaysBetween)/100.0);
+
+    User.update(current_user.id, :money => current_user.money + @price)
     @ticket.destroy
     respond_to do |format|
       format.html { redirect_to tickets_url, notice: 'Ticket was successfully destroyed.' }
@@ -74,7 +82,7 @@ class TicketsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def ticket_params
-      params.require(:ticket).permit(:name, :seat_id_seq, :address, :price, :email_address, :phone, :event_id, :user_id)
+      params.require(:ticket).permit(:name, :seat_id_seq, :address, :price, :email_address, :phone, :event_id, :user_id, :numberOfTickets)
     end
 
   def correct_user
